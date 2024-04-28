@@ -9,7 +9,7 @@ import java.util.Map;
 public class Admin {
     private JFrame frame;
     private Connection connection;
-    private String winningParty; // Declaration of winningParty variable
+    private String winningParty;
 
     public Admin(JFrame frame, Connection connection) {
         this.frame = frame;
@@ -27,8 +27,8 @@ public class Admin {
         adminPanel.add(adminLabel, BorderLayout.NORTH);
 
         JPanel votePanel = new JPanel();
-        votePanel.setLayout(new BoxLayout(votePanel, BoxLayout.Y_AXIS)); // Align vertically
-        votePanel.setBackground(new Color(240, 240, 240)); // Set background color
+        votePanel.setLayout(new BoxLayout(votePanel, BoxLayout.Y_AXIS));
+        votePanel.setBackground(new Color(240, 240, 240));
         Map<String, Integer> voteCounts = getVoteCounts();
         int maxVotes = 0;
         for (int votes : voteCounts.values()) {
@@ -38,11 +38,11 @@ public class Admin {
         }
         boolean tie = false;
         for (Map.Entry<String, Integer> entry : voteCounts.entrySet()) {
-            JPanel partyPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 5)); // FlowLayout for party name
-            partyPanel.setBackground(new Color(240, 240, 240)); // Set background color
+            JPanel partyPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 5)); 
+            partyPanel.setBackground(new Color(240, 240, 240));
 
             JLabel voteLabel = new JLabel(entry.getKey() + ": " + entry.getValue());
-            voteLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Set font for party labels
+            voteLabel.setFont(new Font("Arial", Font.PLAIN, 16)); 
             if (entry.getValue() == maxVotes) {
                 voteLabel.setForeground(Color.RED);
                 if (tie) {
@@ -88,7 +88,7 @@ public class Admin {
     private Map<String, Integer> getVoteCounts() {
         Map<String, Integer> voteCounts = new HashMap<>();
         try {
-            // Initialize vote counts for all parties with 0 votes
+         
             voteCounts.put("BJP", 0);
             voteCounts.put("Aam Aadmi Party", 0);
             voteCounts.put("INC", 0);
@@ -97,7 +97,6 @@ public class Admin {
             voteCounts.put("DMK", 0);
             voteCounts.put("AIADMK", 0);
 
-            // Query the database for actual vote counts
             String sql = "SELECT voted_party, COUNT(*) AS vote_count FROM votes GROUP BY voted_party ORDER BY vote_count DESC";
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(sql);

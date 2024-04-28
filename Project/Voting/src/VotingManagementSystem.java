@@ -23,10 +23,10 @@ public class VotingManagementSystem {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.insets = new Insets(10, 10, 10, 10); // Add spacing
+        gbc.insets = new Insets(10, 10, 10, 10); 
 
         JLabel titleLabel = new JLabel("Welcome to Voting Management System");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 24)); // Set font and size
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 24)); 
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
         panel.add(titleLabel, gbc);
 
@@ -39,24 +39,24 @@ public class VotingManagementSystem {
         gbc.gridy++;
 
         JButton registerButton = new JButton("Register");
-        registerButton.setPreferredSize(new Dimension(200, 40)); // Set button size
+        registerButton.setPreferredSize(new Dimension(200, 40)); 
         registerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Open registration screen
+                
                 openRegistrationScreen();
             }
         });
         panel.add(registerButton, gbc);
 
-        gbc.gridy++; // Move to the next row
+        gbc.gridy++;
 
         JButton loginButton = new JButton("Login");
-        loginButton.setPreferredSize(new Dimension(200, 40)); // Set button size
+        loginButton.setPreferredSize(new Dimension(200, 40)); 
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Open login screen
+             
                 openLoginScreen();
             }
         });
@@ -71,11 +71,11 @@ public class VotingManagementSystem {
         gbc.gridy++;
 
         JButton adminLoginButton = new JButton("Admin Login");
-        adminLoginButton.setPreferredSize(new Dimension(200, 40)); // Set button size
+        adminLoginButton.setPreferredSize(new Dimension(200, 40));
         adminLoginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Open admin login screen
+              
                 openAdminLoginScreen();
             }
         });
@@ -116,7 +116,7 @@ public class VotingManagementSystem {
         registerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Register user
+            
                 registerUser(emailField.getText(), new String(passwordField.getPassword()), fullNameField.getText(), voterIdProofField.getText());
             }
         });
@@ -127,16 +127,15 @@ public class VotingManagementSystem {
     }
 
     private void registerUser(String email, String password, String fullName, String voterIdProofImagePath) {
-        // JDBC connection and insert user data into the database
+    
         Connection connection = null;
         try {
-            // Connect to MySQL database
+           
             String jdbcURL = "jdbc:mysql://localhost:3306/voting_management";
             String username = "root";
-            String dbPassword = "159Atg45@"; // Rename password variable to avoid conflict
+            String dbPassword = "159Atg45@"; 
             connection = DriverManager.getConnection(jdbcURL, username, dbPassword);
 
-            // Prepare SQL statement
             String sql = "INSERT INTO users (email, password, full_name, voter_id_proof_path) VALUES (?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, email);
@@ -144,7 +143,6 @@ public class VotingManagementSystem {
             statement.setString(3, fullName);
             statement.setString(4, voterIdProofImagePath);
 
-            // Execute the statement
             int rowsInserted = statement.executeUpdate();
             if (rowsInserted > 0) {
                 JOptionPane.showMessageDialog(frame, "User registered successfully!");
@@ -176,24 +174,22 @@ public class VotingManagementSystem {
     }
 
     private void openAdminLoginScreen() {
-        // Hardcoded admin credentials
+     
         String adminUsername = "admin";
         String adminPassword = "admin123";
 
-        // Check if the admin login credentials are correct
         String inputUsername = JOptionPane.showInputDialog(frame, "Enter Admin Username:");
         String inputPassword = JOptionPane.showInputDialog(frame, "Enter Admin Password:");
 
         if (inputUsername != null && inputPassword != null &&
                 inputUsername.equals(adminUsername) && inputPassword.equals(adminPassword)) {
             try {
-                // Connect to MySQL database
+              
                 String jdbcURL = "jdbc:mysql://localhost:3306/voting_management";
                 String username = "root";
-                String dbPassword = "159Atg45@"; // Rename password variable to avoid conflict
+                String dbPassword = "159Atg45@";
                 Connection connection = DriverManager.getConnection(jdbcURL, username, dbPassword);
 
-                // Open admin view
                 Admin admin = new Admin(frame, connection);
                 admin.openAdminView();
             } catch (SQLException ex) {
@@ -203,7 +199,6 @@ public class VotingManagementSystem {
             JOptionPane.showMessageDialog(frame, "Invalid Admin Credentials!");
         }
     }
-
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {

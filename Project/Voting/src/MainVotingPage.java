@@ -8,16 +8,16 @@ import java.util.Enumeration;
 public class MainVotingPage {
     private JPanel panel;
     private String fullName;
-    private boolean hasVoted = false; // Flag to track whether the user has voted
-    private String email; // Store the email
-    private JFrame frame; // Store the frame
-    private ButtonGroup group; // Declare ButtonGroup variable
-    private JButton voteButton; // Declare JButton variable
+    private boolean hasVoted = false;
+    private String email;
+    private JFrame frame;
+    private ButtonGroup group; 
+    private JButton voteButton; 
 
     public MainVotingPage(String fullName, String email, JFrame frame) {
-        this.fullName = fullName; // Store the full name of the logged-in user
-        this.email = email; // Store the email
-        this.frame = frame; // Store the frame
+        this.fullName = fullName; 
+        this.email = email; 
+        this.frame = frame;
 
         panel = new JPanel(new GridBagLayout());
         panel.setBackground(new Color(240, 240, 240));
@@ -34,7 +34,6 @@ public class MainVotingPage {
         welcomeLabel.setFont(new Font("Arial", Font.BOLD, 18));
         panel.add(welcomeLabel, gbc);
 
-        // Check if the user has already voted
         if (hasVoted(email)) {
             JLabel votedLabel = new JLabel("You have already voted.");
             votedLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -46,7 +45,7 @@ public class MainVotingPage {
             gbc.gridy++;
             panel.add(titleLabel, gbc);
 
-            group = new ButtonGroup(); // Initialize ButtonGroup
+            group = new ButtonGroup();
             JRadioButton bjpRadioButton = createRadioButton("BJP");
             JRadioButton aamRadioButton = createRadioButton("Aam Aadmi Party");
             JRadioButton incRadioButton = createRadioButton("INC");
@@ -98,7 +97,7 @@ public class MainVotingPage {
                 }
             });
             gbc.gridy++;
-            gbc.insets = new Insets(20, 10, 10, 10); // Add more spacing
+            gbc.insets = new Insets(20, 10, 10, 10); 
             panel.add(voteButton, gbc);
         }
 
@@ -106,9 +105,9 @@ public class MainVotingPage {
         returnButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                frame.getContentPane().removeAll(); // Remove all components from the frame
-                frame.repaint(); // Repaint the frame
-                new VotingManagementSystem(); // Return to the home page
+                frame.getContentPane().removeAll(); 
+                frame.repaint(); 
+                new VotingManagementSystem(); 
             }
         });
         gbc.gridy++;
@@ -116,7 +115,7 @@ public class MainVotingPage {
     }
 
     private boolean hasVoted(String email) {
-        // Check if the user has already voted by querying the database
+     
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -133,7 +132,7 @@ public class MainVotingPage {
 
             resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                voted = true; // User has voted
+                voted = true; 
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -157,9 +156,9 @@ public class MainVotingPage {
 
     private JRadioButton createRadioButton(String text) {
         JRadioButton radioButton = new JRadioButton(text);
-        radioButton.setActionCommand(text); // Set the action command
+        radioButton.setActionCommand(text);
         radioButton.setFont(new Font("Arial", Font.PLAIN, 16));
-        radioButton.setOpaque(false); // Make the radio button transparent
+        radioButton.setOpaque(false); 
         return radioButton;
     }
 
@@ -195,12 +194,12 @@ public class MainVotingPage {
     }
 
     private void disableVoting() {
-        // Disable radio buttons and the vote button after voting
+       
         Enumeration<AbstractButton> buttons = group.getElements();
         while (buttons.hasMoreElements()) {
             AbstractButton button = buttons.nextElement();
-            button.setEnabled(false); // Disable the radio buttons
+            button.setEnabled(false); 
         }
-        voteButton.setEnabled(false); // Disable the vote button
+        voteButton.setEnabled(false); 
     }
 }

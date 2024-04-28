@@ -5,56 +5,55 @@ import java.awt.event.ActionListener;
 import java.sql.*;
 
 public class LoginScreen {
-    private JPanel panel; // Define panel as a class-level variable
-    private String email; // Store the email
+    private JPanel panel;
+    private String email; 
 
     public LoginScreen() {
-        panel = new JPanel(); // Initialize the panel
-        panel.setLayout(new GridBagLayout()); // Use GridBagLayout for flexible layout
-        panel.setBackground(new Color(240, 240, 240)); // Set background color
+        panel = new JPanel(); 
+        panel.setLayout(new GridBagLayout()); 
+        panel.setBackground(new Color(240, 240, 240)); 
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.insets = new Insets(10, 10, 10, 10); // Add spacing
+        gbc.insets = new Insets(10, 10, 10, 10);
 
         JLabel titleLabel = new JLabel("Login");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 24)); // Set font and size
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 24)); 
         panel.add(titleLabel, gbc);
 
-        gbc.gridy++; // Move to the next row
+        gbc.gridy++;
 
         JLabel emailLabel = new JLabel("Email:");
         panel.add(emailLabel, gbc);
 
-        gbc.gridy++; // Move to the next row
+        gbc.gridy++;
 
         JTextField emailField = new JTextField(20);
         panel.add(emailField, gbc);
 
-        gbc.gridy++; // Move to the next row
+        gbc.gridy++; 
 
         JLabel passwordLabel = new JLabel("Password:");
         panel.add(passwordLabel, gbc);
 
-        gbc.gridy++; // Move to the next row
-
+        gbc.gridy++;
         JPasswordField passwordField = new JPasswordField(20);
         panel.add(passwordField, gbc);
 
-        gbc.gridy++; // Move to the next row
+        gbc.gridy++; 
 
         JButton loginButton = new JButton("Login");
-        loginButton.setPreferredSize(new Dimension(200, 40)); // Set button size
+        loginButton.setPreferredSize(new Dimension(200, 40)); 
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Check login credentials and open main page
-                email = emailField.getText(); // Store the email
+               
+                email = emailField.getText();
                 String password = new String(passwordField.getPassword());
                 if (isValidLogin(email, password)) {
                     String fullName = getFullName(email);
-                    openMainPage(fullName, email); // Pass the email to MainVotingPage
+                    openMainPage(fullName, email); 
                 } else {
                     JOptionPane.showMessageDialog(panel, "Invalid email or password. Please try again.");
                 }
@@ -69,7 +68,7 @@ public class LoginScreen {
     }
 
     private boolean isValidLogin(String email, String password) {
-        // JDBC connection and query database for login validation
+
         try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/voting_management", "root", "159Atg45@");
              PreparedStatement statement = connection.prepareStatement("SELECT * FROM users WHERE email = ? AND password = ?")) {
             statement.setString(1, email);
@@ -79,12 +78,12 @@ public class LoginScreen {
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
-            return false; // Return false in case of any SQL exception
+            return false; 
         }
     }
 
     private String getFullName(String email) {
-        // Fetch full name of the user from the database
+       
         try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/voting_management", "root", "159Atg45@");
              PreparedStatement statement = connection.prepareStatement("SELECT full_name FROM users WHERE email = ?")) {
             statement.setString(1, email);
@@ -100,11 +99,11 @@ public class LoginScreen {
     }
 
     private void openMainPage(String fullName, String email) {
-        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(panel); // Get the JFrame of the LoginScreen
-        frame.getContentPane().removeAll(); // Remove all components from the frame
+        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(panel); 
+        frame.getContentPane().removeAll();
 
-        MainVotingPage mainVotingPage = new MainVotingPage(fullName, email, frame); // Pass the email and frame
-        frame.add(mainVotingPage.getPanel()); // Add the MainVotingPage panel to the frame
+        MainVotingPage mainVotingPage = new MainVotingPage(fullName, email, frame); 
+        frame.add(mainVotingPage.getPanel()); 
 
         frame.revalidate();
         frame.repaint();
